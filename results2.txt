@@ -1,0 +1,17 @@
+# Repeated runs, N=3 each, mean +/- population sd
+16 workers, 2000x20ms: throughput jobs/s 754.41 +/- 6.03
+20% fail, retries OFF: completion % 80.77 +/- 0.39; total s 2.67 +/- 0.02
+20% fail, retries ON : completion % 99.92 +/- 0.05; total s 3.49 +/- 0.02
+1% hang, health check OFF: completion % 99.17 +/- 0.12
+1% hang, health check ON : completion % 100.00 +/- 0.00; total s 1.60 +/- 0.15
+# Write-ahead log cost (16 workers, 2000 jobs x 20ms, 32 submit clients)
+no WAL: submit phase s 0.20 +/- 0.02; total s 2.64 +/- 0.03
+WAL, no fsync: submit phase s 0.21 +/- 0.04; total s 2.66 +/- 0.01
+WAL, fsync per submit: submit phase s 1.09 +/- 0.03; total s 3.02 +/- 0.02
+# kill -9 crash recovery (WAL with fsync): submit 3000 jobs x 30ms, kill -9 at ~25% done, restart, drain
+jobs acknowledged: 3000; done at kill time: 704; after restart, ids with a done/dead record: 3000; lost: 0
+# Real CPU jobs (chained SHA-256), 200 jobs x 500,000 rounds, no sleep; machine has 2 cores
+workers=1: jobs/s 20.65 +/- 0.02
+workers=2: jobs/s 37.71 +/- 0.34
+workers=4: jobs/s 39.12 +/- 0.35
+workers=16: jobs/s 14.41 +/- 0.69

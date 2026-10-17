@@ -1,0 +1,24 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata: {name: orchd}
+spec:
+  replicas: 1   # state is in memory, so one replica only (see README limits)
+  selector: {matchLabels: {app: orchd}}
+  template:
+    metadata: {labels: {app: orchd}}
+    spec:
+      containers:
+        - name: orchd
+          image: orchd:local
+          args: ["-addr=:8080", "-workers=16"]
+          ports: [{containerPort: 8080}]
+          livenessProbe:  {httpGet: {path: /healthz, port: 8080}, periodSeconds: 5}
+          readinessProbe: {httpGet: {path: /readyz,  port: 8080}, periodSeconds: 2}
+          resources: {requests: {cpu: 250m, memory: 64Mi}, limits: {cpu: "1", memory: 256Mi}}
+---
+apiVersion: v1
+kind: Service
+metadata: {name: orchd}
+spec:
+  selector: {app: orchd}
+  ports: [{port: 80, targetPort: 8080}]

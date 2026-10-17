@@ -1,0 +1,11 @@
+# A. worker scaling (2000 jobs x 20 ms, no failures)
+{"completion_pct":100,"dead":0,"done":2000,"jobs":2000,"label":"workers=1","requeued":0,"retried":0,"submit_s":0.192004362,"throughput_jobs_s":48.08088094016615,"total_s":41.596575622}
+{"completion_pct":100,"dead":0,"done":2000,"jobs":2000,"label":"workers=4","requeued":0,"retried":0,"submit_s":0.20646673,"throughput_jobs_s":191.95479650047528,"total_s":10.419119691}
+{"completion_pct":100,"dead":0,"done":2000,"jobs":2000,"label":"workers=16","requeued":0,"retried":0,"submit_s":0.17899258,"throughput_jobs_s":758.3083848705652,"total_s":2.637449407}
+{"completion_pct":100,"dead":0,"done":2000,"jobs":2000,"label":"workers=64","requeued":0,"retried":0,"submit_s":0.209622325,"throughput_jobs_s":2830.615020604825,"total_s":0.70656023}
+# B. retries vs no retries (20% injected failure per attempt, 16 workers, 2000 jobs)
+{"completion_pct":80.55,"dead":389,"done":1611,"jobs":2000,"label":"retries=off","requeued":0,"retried":0,"submit_s":0.239014539,"throughput_jobs_s":598.0887291686647,"total_s":2.693580269}
+{"completion_pct":99.9,"dead":2,"done":1998,"jobs":2000,"label":"retries=on(max5)","requeued":0,"retried":510,"submit_s":0.175531795,"throughput_jobs_s":566.5116858360507,"total_s":3.52684693}
+# C. hung workers (1% of attempts hang forever, 16 workers, 1000 jobs, 20s timeout)
+{"completion_pct":98.7,"dead":0,"done":987,"jobs":1000,"label":"healthcheck=off","requeued":0,"retried":0,"submit_s":0.110276753,"throughput_jobs_s":49.32876379453578,"total_s":20.00861007}
+{"completion_pct":100,"dead":0,"done":1000,"jobs":1000,"label":"healthcheck=on","requeued":9,"retried":0,"submit_s":0.124096532,"throughput_jobs_s":598.468931546205,"total_s":1.670930515}
